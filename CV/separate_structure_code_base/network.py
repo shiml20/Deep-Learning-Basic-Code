@@ -27,7 +27,7 @@ class ResNet(nn.Module):
         self.maxpool2 = nn.MaxPool2d(2, 2)
         # 由于MaxPooling降采样两次，特征图缩减为原图的 1/4 * 1/4
         self.fc1 = nn.Sequential(nn.Linear(in_features=128*int(img_H/4)*int(img_W/4), out_features=784), nn.Dropout(p=0.0), nn.ReLU())
-        self.fc2 = nn.Sequential(nn.Linear(in_features=784, out_features=525), nn.Softmax(dim=1))
+        self.fc2 = nn.Sequential(nn.Linear(in_features=784, out_features=6), nn.Softmax(dim=1))
         self.weights_init_xavier()
             
     def weights_init_xavier(self):

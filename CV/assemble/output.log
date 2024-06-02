@@ -1,0 +1,168 @@
+using cuda device
+dataset:/home/sml/ILSVRC2012
+model:resnet
+using cuda device
+dataset:/home/sml/ILSVRC2012
+model:resnet
+using cuda device
+dataset:/home/sml/ILSVRC2012
+model:resnet
+using cuda device
+dataset:/home/sml/ILSVRC2012
+model:resnet
+using cuda device
+dataset:/home/sml/ILSVRC2012
+model:resnet
+using cuda device
+dataset:/home/sml/ILSVRC2012
+model:resnet
+loss is CrossEntropyLoss()
+optimizer is Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.0003
+    maximize: False
+    weight_decay: 0.0001
+)
+using cuda device
+dataset:/home/sml/ILSVRC2012
+model:resnet
+loss is CrossEntropyLoss()
+optimizer is Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.0003
+    maximize: False
+    weight_decay: 0.0001
+)
+using cuda device
+dataset:/home/sml/ILSVRC2012
+model:resnet
+loss is CrossEntropyLoss()
+optimizer is Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.0003
+    maximize: False
+    weight_decay: 0.0001
+)
+using cuda device
+dataset:/home/sml/ILSVRC2012
+model:resnet
+loss is CrossEntropyLoss()
+optimizer is Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.0003
+    maximize: False
+    weight_decay: 0.0001
+)
+using cuda device
+dataset:/home/sml/ILSVRC2012
+model:resnet
+loss is CrossEntropyLoss()
+optimizer is Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.0003
+    maximize: False
+    weight_decay: 0.0001
+)
+using cuda device
+dataset:/home/sml/Deep-Learning-Basic-Code/CV/f/imgs_processed
+model:resnet
+loss is CrossEntropyLoss()
+optimizer is Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.0003
+    maximize: False
+    weight_decay: 0.0001
+)
+using cuda device
+dataset:/home/sml/Deep-Learning-Basic-Code/CV/f/imgs_processed
+model:resnet
+loss is CrossEntropyLoss()
+optimizer is Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.0003
+    maximize: False
+    weight_decay: 0.0001
+)
+using cuda device
+dataset:/home/sml/Deep-Learning-Basic-Code/CV/f/imgs_processed
+model:resnet
+loss is CrossEntropyLoss()
+optimizer is Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.0003
+    maximize: False
+    weight_decay: 0.0001
+)
+using cuda device
+dataset:/home/sml/Deep-Learning-Basic-Code/CV/f/imgs_processed
+model:resnet
+loss is CrossEntropyLoss()
+optimizer is Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    capturable: False
+    differentiable: False
+    eps: 1e-08
+    foreach: None
+    fused: False
+    lr: 0.0003
+    maximize: False
+    weight_decay: 0.0001
+)

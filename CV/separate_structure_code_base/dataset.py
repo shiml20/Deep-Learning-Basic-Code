@@ -13,11 +13,10 @@ def data_set(args):
         # transforms.Normalize([0.5],[0.5])
         ]) # 用平均值和标准偏差归一化张量图像
     
-    data_set_lower = args.dataset.lower()
-    root = '100-bird-species/'
-    train_dataset =  datasets.ImageFolder(root + 'train', transform=data_preprocess)
-    val_dataset =  datasets.ImageFolder(root + 'valid', transform=data_preprocess)
-    test_dataset = datasets.ImageFolder(root + 'test', transform=data_preprocess)
+    root = args.dataset
+    train_dataset =  datasets.ImageFolder(root + '/train', transform=data_preprocess)
+    val_dataset =  datasets.ImageFolder(root + '/val', transform=data_preprocess)
+    test_dataset = datasets.ImageFolder(root + '/val', transform=data_preprocess)
 
     return train_dataset, val_dataset, test_dataset
 
@@ -33,7 +32,8 @@ def data_load(args):
                         batch_size=args.batch_size,
                         shuffle=True)
     # 装载测试集
-    test_loader = DataLoader(dataset=test_dataset,
-                        batch_size=args.batch_size,
-                        shuffle=True)
-    return train_loader, val_loader, test_loader
+    # test_loader = DataLoader(dataset=test_dataset,
+    #                     batch_size=args.batch_size,
+    #                     shuffle=True)
+    
+    return train_loader, val_loader

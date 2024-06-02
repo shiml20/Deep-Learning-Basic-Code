@@ -16,7 +16,6 @@ from engine import train, test
 from plot import plot_loss_and_acc
 from dataset import data_load
 import time
-from sklearn.model_selection import train_test_split
 from vit import VisionTransformer
 # 过滤警告信息
 import warnings
@@ -25,9 +24,9 @@ warnings.filterwarnings("ignore")
 
 def get_args_parser():
     parser = argparse.ArgumentParser('CNN Training', add_help=False)
-    parser.add_argument('--dataset', default='cifar10', type=str,
+    parser.add_argument('--dataset', default='/home/sml/Deep-Learning-Basic-Code/CV/f/imgs_processed', type=str,
                         help='choose dataset (default: Finance)')
-    parser.add_argument('--batch_size', type=int, default=64,
+    parser.add_argument('--batch_size', type=int, default=2,
                         help='batch size of the dataset default(128)')
     parser.add_argument('--epoch', type=int, default=2,
                         help='epochs of training process default(10)')
@@ -56,44 +55,16 @@ def get_args_parser():
 
 
 
-transform_train = transforms.Compose([
-    # 随机对图像裁剪出面积为原图像面积0.08~1倍、且高和宽之比在3/4~4/3的图像，再放缩为高和宽均为224像素的新图像
-    # transforms.RandomResizedCrop(224, scale=(0.08, 1.0),  
-    #                              ratio=(3.0/4.0, 4.0/3.0)),
-    # # 以0.5的概率随机水平翻转
-    # transforms.RandomHorizontalFlip(),
-    # # 随机更改亮度、对比度和饱和度
-    # transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4),
-    # transforms.Resize(img_resize),
-    # 将图像中央的高和宽均为224的正方形区域裁剪出来
-    # transforms.CenterCrop(img_resize),
-    transforms.ToTensor(),
-    # 对各个通道做标准化，(0.485, 0.456, 0.406)和(0.229, 0.224, 0.225)是在ImageNet上计算得的各通道均值与方差
-    # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])  # ImageNet上的均值和方差
-])
-
-# 在测试集上的图像增强只做确定性的操作
-transform_test = transforms.Compose([
-    # transforms.Resize(img_resize),
-    # 将图像中央的高和宽均为224的正方形区域裁剪出来
-    # transforms.CenterCrop(img_resize),
-    transforms.ToTensor(),
-    # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-])
-
-
 
 def main(args):
-    #然后开始加载数据集
-    new_data_dir="dataset"
     # 设置训练设备
     device = torch.device(args.device)
     in_chans = 3
     # 定义模型
     if args.model == 'resnet':
-        model = ResNet(in_chans=in_chans, img_H=224, img_W=224)
+        model = ResNet(in_chans=in_chans, img_H=112, img_W=112)
     elif args.vit == 'vit':
-        model = VisionTransformer(img_size=224, patch_size=16, num_classes=525, num_heads=2, depth=12, embed_dim=384)        
+        model = VisionTransformer(img_size=112, patch_size=16, num_classes=525, num_heads=2, depth=12, embed_dim=384)        
 
     model = model.to(device)
     # 打印信息
@@ -122,11 +93,11 @@ def main(args):
         model_trained, best_model, train_los, train_acc, val_los, val_acc = train(model=model, 
                                         criterion=criterion,
                                         train_loader=train_loader,
-                                        val_loader=val_loader,
+                                        # val_loader=val_loader,
                                         optimizer=optimizer,
                                         device=device,
                                         max_epoch=args.epoch,
-                                        disp_freq=100)
+                                        disp_freq=10)
     # 测试
     test(model=best_model,
         criterion=criterion,

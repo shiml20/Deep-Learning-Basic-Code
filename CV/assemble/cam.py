@@ -9,19 +9,19 @@ import numpy as np
 
 # 读取图像并进行大小调整和标准化处理
 transform = transforms.Compose([
-    transforms.Resize(224),
-    transforms.CenterCrop(224),
+    transforms.Resize(112),
+    transforms.CenterCrop(112),
     transforms.ToTensor(),
 ])
 
 # 建立模型并修改全连接层
-class_num = 525
+class_num = 6
 model = models.__dict__['resnet18']()
 model.fc = nn.Sequential(nn.Dropout(0.0), nn.Linear(model.fc.in_features,class_num))
 
 # 模型并行处理并导入预训练CKPT
 model = torch.nn.DataParallel(model).cuda()
-CKPT = torch.load('logs/resnet18_oridata_epochs15_lr01_wd_1e-4_dropout00_optsgd/checkpoint-best.pth', map_location='cpu')['state_dict']
+CKPT = torch.load('/home/sml/Deep-Learning-Basic-Code/CV/f/logs/checkpoint-1.pth', map_location='cpu')['state_dict']
 model.load_state_dict(CKPT)   #加载训练完保存好的模型
 
 # 如果使用了 nn.DataParallel，它会自动打包模型并将其分布在多个 GPU 上，实现并行计算。在这种情况下，model 变量实际上指向 nn.DataParallel 对象，而不是模型本身。
@@ -32,7 +32,7 @@ model.eval()
 model_features.eval()    
 
 # 单张图片测试
-img_path = 'data/test/AZARAS SPINETAIL/2.jpg'             
+img_path = '/home/sml/Deep-Learning-Basic-Code/CV/f/imgs_processed/test/0/139.jpg'             
 _, img_name = os.path.split(img_path)
 img = Image.open(img_path).convert('RGB')
 img_tensor = transform(img).unsqueeze(0)
@@ -47,7 +47,7 @@ h_x = torch.nn.functional.softmax(logit, dim=1).data.squeeze()
 
 
 # 打开数据文件
-with open('data/birds.csv', "r") as f:
+with open('/home/sml/Deep-Learning-Basic-Code/CV/f/imgs_processed/label.csv', "r") as f:
     content = f.readlines()
 
 # 初始化一个空字典
@@ -57,8 +57,9 @@ class_to_scientific = {}
 for line in content[1:]:
     # 去除行首行尾空格并用逗号分隔
     line = line.strip().split(',')
+    print(line)
     # 将class id 和 scientific name 分别作为键和值存储到字典中
-    class_to_scientific[int(line[0][:-2])] = line[4]
+    class_to_scientific[int(line[0])] = line[1]
 
 # 下面for循环的目的是依次打印该图片针对每个类别的概率
 probs, idx = h_x.sort(0, True)      # 输出概率升序排列
@@ -98,7 +99,7 @@ cv2.putText(result, text2, (5, 200), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScal
             color=(123, 222, 238), thickness=2, lineType=cv2.LINE_AA)
 
 # 存储CAM结果
-CAM_RESULT_PATH = r'imgs/'   
+CAM_RESULT_PATH = r'vis/'   
 if not os.path.exists(CAM_RESULT_PATH):
     os.mkdir(CAM_RESULT_PATH)
 image_name_ = img_name.split(".")[-2]

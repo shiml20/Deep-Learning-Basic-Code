@@ -23,7 +23,6 @@ from torch.utils.data import Subset
 
 from pathlib import Path
 
-from network import ResNet
 import sklearn
 from sklearn import metrics
 import numpy as np
@@ -39,7 +38,7 @@ model_names = sorted(name for name in models.__dict__
 model_names += ['sml']
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
-parser.add_argument('data', metavar='DIR', nargs='?', default='imagenet',
+parser.add_argument('data', metavar='DIR', nargs='?', default='/home/sml/Deep-Learning-Basic-Code/CV/f/imgs_processed',
                     help='path to dataset (default: imagenet)')
 parser.add_argument('-a', '--arch', metavar='ARCH', default='resnet18',
                     choices=model_names,
@@ -48,7 +47,7 @@ parser.add_argument('-a', '--arch', metavar='ARCH', default='resnet18',
                         ' (default: resnet18)')
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
-parser.add_argument('--epochs', default=90, type=int, metavar='N',
+parser.add_argument('--epochs', default=30, type=int, metavar='N',
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
                     help='manual epoch number (useful on restarts)')
@@ -95,7 +94,7 @@ parser.add_argument('--dummy', action='store_true', help="use fake data to bench
 parser.add_argument('--output_dir', metavar='DIR', type=str, default='logs/', help="")
 parser.add_argument('--opt', default='adam', type=str, metavar='OPTIMIZER',
                         help='Optimizer (default: "adam"')
-parser.add_argument('--num_classes', default=525, type=int,
+parser.add_argument('--num_classes', default=6, type=int,
                         help='number of the classification types')
 parser.add_argument('--dropout', type=float, default=0.0, metavar='PCT',
                         help='Dropout rate (default: 0.0)')
@@ -163,12 +162,9 @@ def main_worker(gpu, ngpus_per_node, args):
         print("=> using pre-trained model '{}'".format(args.arch))
         model = models.__dict__[args.arch](pretrained=True)
     else:
-        if 'sml' in args.arch:
-            model = ResNet()
-        else:
-            model = models.__dict__[args.arch]()
-            # sml
-            model.fc = nn.Sequential(nn.Dropout(args.dropout), nn.Linear(model.fc.in_features, args.num_classes))
+        model = models.__dict__[args.arch]()
+        # sml
+        model.fc = nn.Sequential(nn.Dropout(args.dropout), nn.Linear(model.fc.in_features, args.num_classes))
         print("=> creating model '{}'".format(args.arch))
 
     if not torch.cuda.is_available() and not torch.backends.mps.is_available():
