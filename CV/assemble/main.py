@@ -35,7 +35,7 @@ model_names = sorted(name for name in models.__dict__
     if name.islower() and not name.startswith("__")
     and callable(models.__dict__[name]))
 
-model_names += ['sml']
+print(model_names)
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 parser.add_argument('data', metavar='DIR', nargs='?', default='/home/sml/Deep-Learning-Basic-Code/CV/f/imgs_processed',
@@ -164,7 +164,7 @@ def main_worker(gpu, ngpus_per_node, args):
     else:
         model = models.__dict__[args.arch]()
         # sml
-        model.fc = nn.Sequential(nn.Dropout(args.dropout), nn.Linear(model.fc.in_features, args.num_classes))
+        # model.fc = nn.Sequential(nn.Dropout(args.dropout), nn.Linear(model.fc.in_features, args.num_classes))
         print("=> creating model '{}'".format(args.arch))
 
     if not torch.cuda.is_available() and not torch.backends.mps.is_available():
@@ -200,7 +200,6 @@ def main_worker(gpu, ngpus_per_node, args):
             model.features = torch.nn.DataParallel(model.features)
             model.cuda()
         else:
-            print("sss")
             model = torch.nn.DataParallel(model).cuda()
 
     if torch.cuda.is_available():
@@ -271,7 +270,7 @@ def main_worker(gpu, ngpus_per_node, args):
         train_dataset = datasets.ImageFolder(
             traindir,
             transforms.Compose([
-                transforms.Resize((224, 224)),
+                transforms.Resize((150, 150)),
                 # transforms.RandomResizedCrop(224),
                 # transforms.RandomHorizontalFlip(),
                 transforms.ToTensor(),
@@ -281,7 +280,7 @@ def main_worker(gpu, ngpus_per_node, args):
         val_dataset = datasets.ImageFolder(
             valdir,
             transforms.Compose([
-                transforms.Resize((224, 224)),
+                transforms.Resize((150, 150)),
                 # transforms.CenterCrop(224),
                 transforms.ToTensor(),
                 # normalize,
@@ -332,7 +331,7 @@ def main_worker(gpu, ngpus_per_node, args):
     
 
         if not args.multiprocessing_distributed or (args.multiprocessing_distributed
-                and args.rank % ngpus_per_node == 0):
+                and args.rank % ngpus_per_node == 0) and epoch % 5 == 0:
             save_checkpoint({
                 'epoch': epoch + 1,
                 'arch': args.arch,
